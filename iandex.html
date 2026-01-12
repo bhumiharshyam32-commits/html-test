@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shyam Song</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4')
+  no-repeat center center/cover;
+  color:white;
+}
+
+.overlay{
+  background:rgba(0,0,0,0.7);
+  min-height:100vh;
+  padding:15px;
+}
+
+h1{
+  text-align:center;
+  color:#ffcc00;
+}
+
+input[type="text"], input[type="file"]{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+  border-radius:5px;
+  border:none;
+}
+
+.song{
+  background:rgba(255,255,255,0.1);
+  padding:10px;
+  margin:10px 0;
+  border-radius:8px;
+}
+
+.song button{
+  padding:6px 10px;
+  background:#ffcc00;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+audio{
+  width:100%;
+  margin-top:10px;
+}
+
+.download{
+  text-align:center;
+  margin-top:20px;
+}
+
+.download a{
+  background:#00ffcc;
+  color:black;
+  padding:10px 15px;
+  border-radius:6px;
+  text-decoration:none;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+<div class="overlay">
+<h1>🎵 Shyam Song App</h1>
+
+<input type="text" id="search" placeholder="Search song..." onkeyup="searchSong()">
+
+<input type="file" accept="audio/*" onchange="uploadSong(event)">
+
+<div id="songList">
+</div>
+
+<div class="download">
+<a download="ShyamSongApp.html" href="#">⬇️ Download App</a>
+</div>
+
+</div>
+
+<script>
+function searchSong(){
+  let input = document.getElementById("search").value.toLowerCase();
+  let songs = document.getElementsByClassName("song");
+
+  for(let i=0;i<songs.length;i++){
+    let text = songs[i].innerText.toLowerCase();
+    songs[i].style.display = text.includes(input) ? "block" : "none";
+  }
+}
+
+function uploadSong(event){
+  let file = event.target.files[0];
+  if(!file) return;
+
+  let url = URL.createObjectURL(file);
+
+  let div = document.createElement("div");
+  div.className = "song";
+  div.innerHTML = `<b>${file.name}</b>
+  <audio controls src="${url}"></audio>`;
+
+  document.getElementById("songList").appendChild(div);
+}
+</script>
+
+</body>
+</html>
