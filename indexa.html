@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title> yo yo Movie</title>
+  <style>
+    * { box-sizing: border-box; font-family: Arial, sans-serif; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4') no-repeat center/cover;
+      color: #fff;
+    }
+    .overlay { background: rgba(0,0,0,0.65); min-height: 100vh; padding: 15px; }
+
+    header {
+      display: flex; gap: 10px; align-items: center; margin-bottom: 15px;
+    }
+    header h1 { margin: 0; font-size: 20px; }
+    .search {
+      flex: 1; display: flex; gap: 5px;
+    }
+    .search input {
+      flex: 1; padding: 8px; border-radius: 6px; border: none;
+    }
+    .search button {
+      padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer;
+    }
+
+    .tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+    .tab {
+      padding: 8px 12px; background: #222; border-radius: 20px; cursor: pointer;
+    }
+    .tab.active { background: #ff3b3b; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .card {
+      background: #111; border-radius: 10px; overflow: hidden; cursor: pointer;
+    }
+    .card img { width: 100%; height: 180px; object-fit: cover; }
+    .card p { margin: 6px; font-size: 14px; }
+
+    /* Video Player */
+    .player {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+      display: none; align-items: center; justify-content: center; flex-direction: column;
+      z-index: 10;
+    }
+    video { max-width: 90%; max-height: 60vh; background: #000; }
+    .controls {
+      margin-top: 10px; display: flex; gap: 10px; align-items: center;
+    }
+    .controls button {
+      padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer;
+    }
+    .download {
+      position: relative;
+    }
+    .download.loading::after {
+      content: '⬇';
+      position: absolute; right: -20px; top: 0;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .close { margin-top: 10px; background: #ff3b3b; color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <header>
+      <h1>🎬yo yo Movie 🎬</h1>
+      <div class="search">
+        <input id="searchInput" type="text" placeholder="Search movies / series" />
+        <button onclick="doSearch()">Search</button>
+      </div>
+    </header>
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('bollywood')">Bollywood</div>
+      <div class="tab" onclick="switchTab('hollywood')">Hollywood</div>
+      <div class="tab" onclick="switchTab('series')">Series</div>
+    </div>
+
+    <div id="grid" class="grid"></div>
+  </div>
+
+  <!-- Video Player -->
+  <div id="player" class="player">
+    <video id="video" controls></video>
+    <div class="controls">
+      <button onclick="playPause()">Play / Pause</button>
+      <button class="download" id="downloadBtn" onclick="startDownload()">Download</button>
+    </div>
+    <button class="close" onclick="closePlayer()">Close</button>
+  </div>
+
+  <script>
+    const data = {
+      bollywood: [
+        { title: 'Bollywood Shot 1', img: 'https://picsum.photos/300/400?1', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+        { title: 'Bollywood Shot 2', img: 'https://picsum.photos/300/400?2', video: 'https://www.w3schools.com/html/movie.mp4' }
+      ],
+      hollywood: [
+        { title: 'Hollywood Shot 1', img: 'https://picsum.photos/300/400?3', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+        { title: 'Hollywood Shot 2', img: 'https://picsum.photos/300/400?4', video: 'https://www.w3schools.com/html/movie.mp4' }
+      ],
+      series: [
+        { title: 'Series Shot 1', img: 'https://picsum.photos/300/400?5', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+        { title: 'Series Shot 2', img: 'https://picsum.photos/300/400?6', video: 'https://www.w3schools.com/html/movie.mp4' }
+      ]
+    };
+
+    let currentTab = 'bollywood';
+    const grid = document.getElementById('grid');
+    const player = document.getElementById('player');
+    const video = document.getElementById('video');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    function render(list) {
+      grid.innerHTML = '';
+      list.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `<img src="${item.img}"><p>${item.title}</p>`;
+        card.onclick = () => openPlayer(item.video);
+        grid.appendChild(card);
+      });
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+      render(data[tab]);
+    }
+
+    function doSearch() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const results = data[currentTab].filter(i => i.title.toLowerCase().includes(q));
+      render(results);
+    }
+
+    function openPlayer(src) {
+      video.src = src;
+      player.style.display = 'flex';
+      video.play();
+    }
+
+    function closePlayer() {
+      video.pause();
+      player.style.display = 'none';
+      downloadBtn.classList.remove('loading');
+    }
+
+    function playPause() {
+      if (video.paused) video.play(); else video.pause();
+    }
+
+    function startDownload() {
+      downloadBtn.classList.add('loading');
+      setTimeout(() => {
+        downloadBtn.classList.remove('loading');
+        alert('Download started (demo)');
+      }, 2000);
+    }
+
+    // Initial render
+    render(data[currentTab]);
+  </script>
+</body>
+</html>
