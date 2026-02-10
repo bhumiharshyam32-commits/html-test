@@ -1,189 +1,204 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8" />
-  <!-- zoom disable -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title> yo yo Movie</title>
+<meta charset="UTF-8" />
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>yo yo Movie</title>
 
-  <style>
-    * { box-sizing: border-box; font-family: Arial, sans-serif; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4') no-repeat center/cover;
-      color: #fff;
-    }
-    .overlay { background: rgba(0,0,0,0.65); min-height: 100vh; padding: 15px; }
+<style>
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{
+  margin:0;
+  min-height:100vh;
+  background:url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4') no-repeat center/cover;
+  color:#fff
+}
+.overlay{background:rgba(0,0,0,.65);min-height:100vh;padding:15px}
 
-    header {
-      display: flex; gap: 10px; align-items: center; margin-bottom: 15px;
-    }
-    header h1 { margin: 0; font-size: 20px; }
-    .search {
-      flex: 1; display: flex; gap: 5px;
-    }
-    .search input {
-      flex: 1; padding: 8px; border-radius: 6px; border: none;
-    }
-    .search button {
-      padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer;
-    }
+header{display:flex;gap:10px;align-items:center;margin-bottom:15px}
+header h1{margin:0;font-size:20px}
 
-    .tabs { display: flex; gap: 10px; margin-bottom: 15px; }
-    .tab {
-      padding: 8px 12px; background: #222; border-radius: 20px; cursor: pointer;
-    }
-    .tab.active { background: #ff3b3b; }
+.search{flex:1;display:flex;gap:5px}
+.search input{flex:1;padding:8px;border-radius:6px;border:none}
+.search button{padding:8px 12px;border:none;border-radius:6px;cursor:pointer}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 12px;
-    }
-    .card {
-      background: #111; border-radius: 10px; overflow: hidden; cursor: pointer;
-    }
-    .card img { width: 100%; height: 180px; object-fit: cover; }
-    .card p { margin: 6px; font-size: 14px; }
+.tabs{display:flex;gap:10px;margin-bottom:15px}
+.tab{padding:8px 12px;background:#222;border-radius:20px;cursor:pointer}
+.tab.active{background:#ff3b3b}
 
-    /* Player */
-    .player {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.9);
-      display: none; align-items: center; justify-content: center; flex-direction: column;
-      z-index: 10;
-    }
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:12px
+}
 
-    /* iframe size */
-    iframe {
-      width: 90%;
-      height: 55vh;
-      border: none;
-      background: #000;
-    }
+.card{
+  background:#111;
+  border-radius:10px;
+  overflow:hidden;
+  cursor:pointer;
+  position:relative
+}
+.card img{width:100%;height:180px;object-fit:cover}
+.card p{margin:6px;font-size:14px}
 
-    .controls {
-      margin-top: 10px; display: flex; gap: 10px; align-items: center;
-    }
-    .controls a {
-      padding: 8px 12px;
-      border-radius: 6px;
-      background: #2196f3;
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-    }
+/* iframe logo */
+.iframe-badge{
+  position:absolute;
+  bottom:35px;
+  right:8px;
+  background:#ff3b3b;
+  padding:4px 6px;
+  border-radius:4px;
+  font-size:12px
+}
 
-    .close { margin-top: 10px; background: #ff3b3b; color: #fff; border:none; padding:8px 12px; border-radius:6px; }
-  </style>
+/* Player */
+.player{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:10
+}
+
+.player-content{
+  display:flex;
+  flex-direction:column;
+  align-items:center
+}
+
+iframe{
+  width:90%;
+  height:55vh;
+  border:none;
+  background:#000
+}
+
+.controls{margin-top:10px}
+
+.download a{
+  padding:8px 12px;
+  background:#2196f3;
+  color:#fff;
+  text-decoration:none;
+  border-radius:6px;
+  display:inline-block
+}
+
+.close{
+  margin-top:10px;
+  background:#ff3b3b;
+  color:#fff;
+  border:none;
+  padding:8px 14px;
+  border-radius:6px;
+  cursor:pointer
+}
+</style>
 </head>
 
 <body>
-  <div class="overlay">
-    <header>
-      <h1>🎬yo yo Movie 🎬</h1>
-      <div class="search">
-        <input id="searchInput" type="text" placeholder="Search movies / series" />
-        <button onclick="doSearch()">Search</button>
-      </div>
-    </header>
+<div class="overlay">
 
-    <div class="tabs">
-      <div class="tab active" onclick="switchTab('bollywood', event)">Bollywood</div>
-      <div class="tab" onclick="switchTab('hollywood', event)">Hollywood</div>
-      <div class="tab" onclick="switchTab('series', event)">Series</div>
-    </div>
-
-    <div id="grid" class="grid"></div>
+<header>
+  <h1>🎬 yo yo Movie 🎬</h1>
+  <div class="search">
+    <input id="searchInput" type="text" placeholder="Search movies / series">
+    <button onclick="doSearch()">Search</button>
   </div>
+</header>
 
-  <!-- iframe Player -->
-  <div id="player" class="player">
-    <iframe id="frame" allowfullscreen></iframe>
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('bollywood',this)">Bollywood</div>
+  <div class="tab" onclick="switchTab('hollywood',this)">Hollywood</div>
+  <div class="tab" onclick="switchTab('series',this)">Series</div>
+</div>
 
-    <div class="controls">
-      <!-- download using href -->
-      <a id="downloadLink" href="#" target="_blank">⬇ Download</a>
+<div id="grid" class="grid"></div>
+</div>
+
+<!-- Player -->
+<div id="player" class="player" onclick="closePlayer()">
+  <div class="player-content" onclick="event.stopPropagation()">
+    <iframe id="iframePlayer" allowfullscreen></iframe>
+
+    <div class="controls download">
+      <a href="https://www.youtube.com" target="_blank">⬇ Download</a>
     </div>
 
     <button class="close" onclick="closePlayer()">Close</button>
   </div>
+</div>
 
-  <script>
-    const data = {
-      bollywood: [
-        {
-          title: 'border 2',
-          img: 'https://th.bing.com/th/id/OIP.P5NJgvzisZXqSQ8ZF6gqQwHaEK',
-          video: 'https://slime403heq.com/player.js',
-          download: 'https://www.youtube.com'
-        },
-        {
-          title: 'Bollywood Shot 2',
-          img: 'https://picsum.photos/300/400?2',
-          video: 'https://www.youtube.com/embed/x_7YlGv9u1g',
-          download: 'https://www.youtube.com'
-        }
-      ],
-      hollywood: [
-        {
-          title: 'Hollywood Shot 1',
-          img: 'https://picsum.photos/300/400?3',
-          video: 'https://www.youtube.com/embed/YoHD9XEInc0',
-          download: 'https://www.youtube.com'
-        }
-      ],
-      series: [
-        {
-          title: 'Series Shot 1',
-          img: 'https://picsum.photos/300/400?5',
-          video: 'https://www.youtube.com/embed/_InqQJRqGW4',
-          download: 'https://www.youtube.com'
-        }
-      ]
-    };
+<script>
+const data={
+bollywood:[
+  {
+    title:'LEE',
+    img:'https://www.bing.com/th/id/OIP.KhOAxbJ402oRiXu7A-rA8QHaKf?w=160&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2',
+    iframe:'https://slime403heq.com/play/tt5112584'
+  },
+  {title:'BORDER 2',img:'https://th.bing.com/th/id/OIP.P5NJgvzisZXqSQ8ZF6gqQwHaEK?w=295&h=180',
+    iframe:'https://slime403heq.com/play/tt30387012'
+  }
+],
+hollywood:[
+  {title:'Hollywood Shot 1',img:'https://picsum.photos/300/400?3'},
+  {title:'Hollywood Shot 2',img:'https://picsum.photos/300/400?4'}
+],
+series:[
+  {title:'Series Shot 1',img:'https://picsum.photos/300/400?5'},
+  {title:'Series Shot 2',img:'https://picsum.photos/300/400?6'}
+]
+};
 
-    let currentTab = 'bollywood';
-    const grid = document.getElementById('grid');
-    const player = document.getElementById('player');
-    const frame = document.getElementById('frame');
-    const downloadLink = document.getElementById('downloadLink');
+let currentTab='bollywood';
+const grid=document.getElementById('grid');
+const player=document.getElementById('player');
+const iframe=document.getElementById('iframePlayer');
 
-    function render(list) {
-      grid.innerHTML = '';
-      list.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `<img src="${item.img}"><p>${item.title}</p>`;
-        card.onclick = () => openPlayer(item.video, item.download);
-        grid.appendChild(card);
-      });
-    }
+function render(list){
+grid.innerHTML='';
+list.forEach(item=>{
+  const card=document.createElement('div');
+  card.className='card';
+  card.innerHTML=`
+    <img src="${item.img}">
+    ${item.iframe?'<div class="iframe-badge">▶</div>':''}
+    <p>${item.title}</p>`;
+  card.onclick=()=>{if(item.iframe)openPlayer(item.iframe)};
+  grid.appendChild(card);
+});
+}
 
-    function switchTab(tab, e) {
-      currentTab = tab;
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      e.target.classList.add('active');
-      render(data[tab]);
-    }
+function switchTab(tab,el){
+currentTab=tab;
+document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+el.classList.add('active');
+render(data[tab]);
+}
 
-    function doSearch() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      render(data[currentTab].filter(i => i.title.toLowerCase().includes(q)));
-    }
+function doSearch(){
+const q=searchInput.value.toLowerCase();
+render(data[currentTab].filter(i=>i.title.toLowerCase().includes(q)));
+}
 
-    function openPlayer(videoUrl, downloadUrl) {
-      frame.src = videoUrl;
-      downloadLink.href = downloadUrl;
-      player.style.display = 'flex';
-    }
+function openPlayer(src){
+iframe.src=src;
+player.style.display='flex';
+}
 
-    function closePlayer() {
-      frame.src = '';
-      player.style.display = 'none';
-    }
+function closePlayer(){
+iframe.src='';
+player.style.display='none';
+}
 
-    render(data[currentTab]);
-  </script>
+render(data[currentTab]);
+</script>
 </body>
 </html>
