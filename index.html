@@ -4,7 +4,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
 <title>yo yo Movie</title>
 
 <style>
@@ -43,16 +42,6 @@ header h1{margin:0;font-size:20px}
 }
 .card img{width:100%;height:180px;object-fit:cover}
 .card p{margin:6px;font-size:14px}
-
-.iframe-badge{
-  position:absolute;
-  bottom:35px;
-  right:8px;
-  background:#ff3b3b;
-  padding:4px 6px;
-  border-radius:4px;
-  font-size:12px
-}
 
 .player{
   position:fixed;
@@ -98,6 +87,26 @@ iframe{
   border-radius:6px;
   cursor:pointer
 }
+
+.option-box{
+  position:absolute;
+  background:#111;
+  padding:20px;
+  border-radius:10px;
+  text-align:center;
+  display:none;
+}
+.option-box button{
+  margin:8px;
+  padding:8px 15px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+.playBtn{background:#ff3b3b;color:#fff}
+.downBtn{background:#2196f3;color:#fff}
+
+.partBtn{background:#4caf50;color:#fff}
 </style>
 </head>
 
@@ -121,13 +130,20 @@ iframe{
 <div id="grid" class="grid"></div>
 </div>
 
-<!-- Player -->
 <div id="player" class="player" onclick="closePlayer()">
   <div class="player-content" onclick="event.stopPropagation()">
-    <iframe id="iframePlayer" allowfullscreen></iframe>
+    
+    <div id="optionBox" class="option-box">
+      <button class="playBtn" onclick="startPlay()">▶ Play</button>
+      <button class="downBtn" onclick="startDownload()">⬇ Download</button>
+    </div>
 
-    <div class="controls download">
-      <a id="downloadBtn" href="https://www.youtube.com" target="_blank">⬇ Download</a>
+    <div id="partBox" class="option-box"></div>
+
+    <iframe id="iframePlayer" allowfullscreen style="display:none;"></iframe>
+
+    <div class="controls download" id="downloadDiv" style="display:none;">
+      <a id="downloadBtn" target="_blank">⬇ Download</a>
     </div>
 
     <button class="close" onclick="closePlayer()">Close</button>
@@ -137,18 +153,16 @@ iframe{
 <script>
 const data={
 bollywood:[
-  {
-    title:'VADH 2 (2026)',
-    img:'https://tse3.mm.bing.net/th/id/OIP.2OxYEiOBGB3rX85YGEKWtgAAAA?pid=Api&P=0&h=180',
-    iframe:'https://slime403heq.com/play/tt30176955',
-    download:'https://www.filmyzilla30.com/movie/21390/Vadh-2-(2026)-hindi-movie.html'
-  },
-  {
+   {
     title:'BORDER 2 (2026)',
     img:'https://th.bing.com/th/id/OIP.P5NJgvzisZXqSQ8ZF6gqQwHaEK?w=295&h=180',
     iframe:'https://slime403heq.com/play/tt30387012',
-    download:'https://www.filmyzilla30.com/movie/21344/Border-2-(2026)-hindi-movie.html'
+    download:'https://www.filmyzilla32.com/movie/21344/Border-2-(2026)-hindi-movie.html'
   },
+  {title:'VADH 2 (2026)',
+  img:'https://tse3.mm.bing.net/th/id/OIP.2OxYEiOBGB3rX85YGEKWtgAAAA?pid=Api&P=0&h=180',
+  iframe:'https://slime403heq.com/play/tt30176955',
+  download:'https://www.filmyzilla32.com/movie/21390/Vadh-2-(2026)-hindi-movie.html'},
   {
     title:'BIHU ATTACK (2026)',
     img:'https://tse3.mm.bing.net/th/id/OIP.IXQVWXRo318xUfC7xFg8egAAAA?pid=Api&P=0&h=180',
@@ -159,79 +173,116 @@ bollywood:[
     img:'https://tse4.mm.bing.net/th/id/OIP.hKqCo-ng262bN7eo_4sAjgAAAA?pid=Api&P=0&h=180',
     iframe:'https://heast404jax.com/play/tt38672269',
     download:'https://www.filmyzilla30.com/server/34394/Me-No-Pause-Me-Play-(2025)-Hindi-Movie-1080p-HDTC.mkv.html'
-  },,
+  },
    {
-    title:'TU MERI MEIN TERA(2026) ',
+    title:'TU MERI MEIN TERA (2025 HD)',
     img:'https://m.media-amazon.com/images/M/MV5BZWFlOWQ1OTctYjQ5NC00NDQ2LWFmNmQtMDNlOWFjNzExY2VkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg',
     iframe:'https://heast404jax.com/play/tt35146696',
-    download:'https://www.filmyzilla30.com/server/35409/Tu-Meri-Main-Tera-Main-Tera-Tu-Meri-(2025)-Hindi-Movie-1080p-Web-DL.mkv.html'
-  },,
+    download:'https://www.filmyzilla32.com/movie/21380/Tu-meri-main-tera-main-tera-tu-meri-(2025)-hindi-movie.html'
+  },
    {
     title:'MARDANI 3 (2026)',
     img:'https://th.bing.com/th/id/OIP.TZeq1kjdLaFemlvXb0tkqAHaDt?w=314&h=175&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3',
     iframe:'https://heast404jax.com/play/tt27673536',
-    download:'https://www.filmyzilla31.com/server/35331/Mardaani-3-(2026)-Hindi-Movie-1080p-HDTC.mkv.html'
-  },,
+    download:'https://www.filmyzilla32.com/movie/21361/Mardaani-3-(2026)-hindi-movie.html'
+  },
    {
     title:'BHABIJI GHAR PAR HAIN (2026)',
     img:'https://th.bing.com/th/id/OIP.Kos1OKAYFRc8ZOoezEhr9gAAAA?w=115&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3',
     iframe:'https://heast404jax.com/play/tt39045215',
-    download:'https://www.filmyzilla31.com/server/35440/Bhabiji-Ghar-Par-Hain-(2026)-Hindi-Movie-1080p-HDTC.mkv.html'
+    download:'https://www.filmyzilla32.com/movie/21387/Bhabiji-ghar-par-hain-(2026)-hindi-movie.html'
+  },
+   {
+    title:'FATEH (2025 HD)',
+    img:'https://th.bing.com/th/id/OIP.0W62o1kIQch_CwWZz5K_sQHaKk?w=129&h=184&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3',
+    iframe:'https://heast404jax.com/play/tt27679608',
+    download:'https://www.filmyzilla32.com/movie/19928/Fateh-(2025)-hindi-movie.html'
+  },
+   {
+    title:'DHURANDHAR(2025 HD)',
+    img:'https://th.bing.com/th/id/OIP.kTu6hJdq_BSXOFRDQ4QRewHaLH?w=119&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3',
+    iframe:'https://heast404jax.com/play/tt33014583',
+    download:'https://www.filmyzilla32.com/movie/21359/Dhurandhar-(2025)-hindi-movie.html'
+  },
+   {
+    title:'DE DE PYAAR DE 2 (2025 HD)',
+    img:'https://th.bing.com/th/id/OIP.jof_LvRdxBkqwTlTxHM1WgHaFj?w=205&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3',
+    iframe:'https://heast404jax.com/play/tt28802657',
+    download:'https://www.filmyzilla32.com/movie/21017/De-de-pyaar-de-2-(2025)-hindi-movie.html'
+  },
+   {
+    title:'AZAAD (2025 HD)',
+    img:'https://th.bing.com/th/id/OIP.TJZzjxegeDmbbmJn1DsHQwHaJQ?w=138&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3',
+    iframe:'https://hrujo406fix.com/play/tt26439870',
+    download:'https://www.filmyzilla32.com/server/28289/Azaad-(2025)-Hindi-Dubbed-Movie-1080p-WebRip.mp4.html'
+  },,
+   {
+    title:'DE DE PYAAR DE 2 (2025 HD)',
+    img:'https://www.bing.com/th/id/OIP.eZnEMTeSMCmiiVKpzA9MSAHaLH?w=160&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2',
+    iframe:'https://hrujo406fix.com/play/tt28802657',
+    download:'https://www.filmyzilla32.com/movie/21017/De-de-pyaar-de-2-(2025)-hindi-movie.html'
   },
 ],
-
 hollywood:[
-  {
-    title:'LEE',
-    img:'https://www.bing.com/th/id/OIP.KhOAxbJ402oRiXu7A-rA8QHaKf?w=160&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2',
-    iframe:'https://slime403heq.com/play/tt5112584',
-    download:'https://www.filmyzilla30.com/movie/21154/Lee-(2023)-hindi-dubbed-movie.html'
-  },
+  {title:'LEE',
+  img:'https://www.bing.com/th/id/OIP.KhOAxbJ402oRiXu7A-rA8QHaKf?w=160&h=211',
+  iframe:'https://slime403heq.com/play/tt5112584',
+  download:''},
   {
     title:'IT FEEDS',
     img:'https://tse3.mm.bing.net/th/id/OIP.lIMvxEoDtAScV2jxlSZ_VQHaLG?pid=Api&P=0&h=180',
     iframe:'https://slime403heq.com/play/tt28230296',
     download:'https://www.filmyzilla30.com/movie/21297/It-feeds-(2025)-hindi-dubbed-movie.html'
-  }
+  },
+   {
+    title:'TRIAN TO BUSAN',
+    img:'',
+    iframe:'',
+    download:'https://www.filmyzilla30.com/server/4670/Train-to-busan-2016-hindi-dubbed-full-movie-hdrip.mp4.html'
+  },
 ],
-
 series:[
-  {
+  {title:'ZOOTOPIA 2',
+  img:'https://tse3.mm.bing.net/th/id/OIP.MCGxiGGrNq90eAXo617LYQHaLH?pid=Api&P=0&h=180',
+   parts:[
+     'https://slime403heq.com/play/tt26443597?part=1',
+     'https://slime403heq.com/play/tt26443597?part=2',
+   ]},
+   {
     title:'HOW TO TRAIN YOUR DRAGON ',
     img:'https://tse3.mm.bing.net/th/id/OIP.JYEjX3ctYTNomMnGZDhV0gHaLu?pid=Api&P=0&h=180',
-    iframe:'https://slime403heq.com/play/tt26743210',
-    download:'https://www.filmyzilla30.com/movie/20380/How-to-train-your-dragon-(2025)-hindi-dubbed-movie.html'
-  },
-  {
-    title:'ZOOTOPIA 2',
-    img:'https://tse3.mm.bing.net/th/id/OIP.MCGxiGGrNq90eAXo617LYQHaLH?pid=Api&P=0&h=180',
-     iframe:'https://slime403heq.com/play/tt26443597',
-    download:'https://www.filmyzilla30.com/movie/21347/Zootopia-2-(2025)-hindi-dubbed-movie.html'
-  }
+    parts:[
+      'https://slime403heq.com/play/tt26743210?part=1'
+    ]
+   }
 ]
 };
 
 let currentTab='bollywood';
+let selectedVideo="";
+let selectedDownload="";
+let selectedParts=[];
+
 const grid=document.getElementById('grid');
 const player=document.getElementById('player');
 const iframe=document.getElementById('iframePlayer');
-const downloadBtn=document.getElementById('downloadBtn');
+const optionBox=document.getElementById('optionBox');
+const partBox=document.getElementById('partBox');
 
 function render(list){
 grid.innerHTML='';
 list.forEach(item=>{
   const card=document.createElement('div');
   card.className='card';
-  card.innerHTML=`
-    <img src="${item.img}">
-    ${item.iframe?'<div class="iframe-badge">▶</div>':''}
-    <p>${item.title}</p>`;
+  card.innerHTML=`<img src="${item.img}"><p>${item.title}</p>`;
   card.onclick=()=>{
-    if(item.iframe){
-      openPlayer(item.iframe,item.download);
-    }else if(item.download){
-      window.open(item.download,'_blank');
-    }
+    selectedVideo=item.iframe;
+    selectedDownload=item.download;
+    selectedParts=item.parts || [];
+    optionBox.style.display='block';
+    partBox.style.display='none';
+    iframe.style.display='none';
+    player.style.display='flex';
   };
   grid.appendChild(card);
 });
@@ -249,22 +300,48 @@ const q=searchInput.value.toLowerCase();
 render(data[currentTab].filter(i=>i.title.toLowerCase().includes(q)));
 }
 
-function openPlayer(src,dl){
-iframe.src=src;
-downloadBtn.href=dl || 'https://www.filmyzilla30.com/';
-player.style.display='flex';
+function startPlay(){
+optionBox.style.display='none';
+
+if(currentTab==='series' && selectedParts.length>0){
+  partBox.innerHTML='';
+  selectedParts.forEach((p,i)=>{
+    const btn=document.createElement('button');
+    btn.className='partBtn';
+    btn.innerText='Part '+(i+1);
+    btn.onclick=()=>playVideo(p);
+    partBox.appendChild(btn);
+  });
+  partBox.style.display='block';
+}else{
+  playVideo(selectedVideo);
+}
+}
+
+function playVideo(url){
+partBox.style.display='none';
+iframe.style.display='block';
+iframe.src=url;
+
+setTimeout(()=>{
+  if(iframe.requestFullscreen){
+    iframe.requestFullscreen();
+  }
+},500);
+}
+
+function startDownload(){
+window.open(selectedDownload,'_blank');
 }
 
 function closePlayer(){
 iframe.src='';
 player.style.display='none';
+optionBox.style.display='none';
+partBox.style.display='none';
 }
 
 render(data[currentTab]);
 </script>
 </body>
 </html>
-
-
-
-
