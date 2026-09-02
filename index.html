@@ -1,347 +1,253 @@
+```html
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>yo yo Movie</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Cute Sister ❤️</title>
 
 <style>
-*{box-sizing:border-box;font-family:Arial,sans-serif}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
 body{
-  margin:0;
-  min-height:100vh;
-  background:url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4') no-repeat center/cover;
-  color:#fff
-}
-.overlay{background:rgba(0,0,0,.65);min-height:100vh;padding:15px}
-
-header{display:flex;gap:10px;align-items:center;margin-bottom:15px}
-header h1{margin:0;font-size:20px}
-
-.search{flex:1;display:flex;gap:5px}
-.search input{flex:1;padding:8px;border-radius:6px;border:none}
-.search button{padding:8px 12px;border:none;border-radius:6px;cursor:pointer}
-
-.tabs{display:flex;gap:10px;margin-bottom:15px}
-.tab{padding:8px 12px;background:#222;border-radius:20px;cursor:pointer}
-.tab.active{background:#ff3b3b}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
-  gap:12px
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff758c,#ff7eb3,#a18cd1);
+    overflow:hidden;
 }
 
-.card{
-  background:#111;
-  border-radius:10px;
-  overflow:hidden;
-  cursor:pointer;
-  position:relative
-}
-.card img{width:100%;height:180px;object-fit:cover}
-.card p{margin:6px;font-size:14px}
-
-.player{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.9);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  z-index:10
+/* Floating hearts */
+.heart{
+    position:absolute;
+    bottom:-50px;
+    font-size:25px;
+    animation:float 7s linear infinite;
+    opacity:.8;
 }
 
-.player-content{
-  display:flex;
-  flex-direction:column;
-  align-items:center
+@keyframes float{
+    0%{
+        transform:translateY(0) rotate(0deg);
+        opacity:0;
+    }
+    20%{
+        opacity:1;
+    }
+    100%{
+        transform:translateY(-110vh) rotate(360deg);
+        opacity:0;
+    }
 }
 
-iframe{
-  width:90%;
-  height:55vh;
-  border:none;
-  background:#000
+.container{
+    width:90%;
+    max-width:420px;
+    padding:35px 25px;
+    text-align:center;
+    background:rgba(255,255,255,.18);
+    border:1px solid rgba(255,255,255,.4);
+    border-radius:25px;
+    backdrop-filter:blur(15px);
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+    color:white;
+    z-index:10;
 }
 
-.controls{margin-top:10px}
-
-.download a{
-  padding:8px 12px;
-  background:#2196f3;
-  color:#fff;
-  text-decoration:none;
-  border-radius:6px;
-  display:inline-block
+.logo{
+    font-size:65px;
+    margin-bottom:10px;
 }
 
-.close{
-  margin-top:10px;
-  background:#ff3b3b;
-  color:#fff;
-  border:none;
-  padding:8px 14px;
-  border-radius:6px;
-  cursor:pointer
+h1{
+    font-size:30px;
+    margin-bottom:10px;
 }
 
-.option-box{
-  position:absolute;
-  background:#111;
-  padding:20px;
-  border-radius:10px;
-  text-align:center;
-  display:none;
+.subtitle{
+    font-size:15px;
+    margin-bottom:25px;
+    opacity:.9;
 }
-.option-box button{
-  margin:8px;
-  padding:8px 15px;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-}
-.playBtn{background:#ff3b3b;color:#fff}
-.downBtn{background:#2196f3;color:#fff}
 
-.partBtn{background:#4caf50;color:#fff}
+input{
+    width:100%;
+    padding:15px;
+    border:none;
+    outline:none;
+    border-radius:12px;
+    font-size:16px;
+    text-align:center;
+    margin-bottom:15px;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:#ff3366;
+    color:white;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    transform:scale(1.04);
+    background:#ff174f;
+}
+
+/* Welcome page */
+#welcomePage{
+    display:none;
+}
+
+#welcomePage h1{
+    color:#fff;
+}
+
+.name{
+    color:#ffe1ea;
+}
+
+.message{
+    margin-top:20px;
+    font-size:17px;
+    line-height:1.8;
+    text-align:center;
+}
+
+.message span{
+    display:block;
+    margin-bottom:5px;
+}
+
+.back{
+    margin-top:25px;
+    background:rgba(255,255,255,.25);
+}
+
+@media(max-width:480px){
+    .container{
+        padding:30px 20px;
+    }
+
+    h1{
+        font-size:26px;
+    }
+
+    .message{
+        font-size:15px;
+    }
+}
 </style>
 </head>
 
 <body>
-<div class="overlay">
 
-<header>
-  <h1>🎬 yo yo Movie 🎬</h1>
-  <div class="search">
-    <input id="searchInput" type="text" placeholder="Search movies / series">
-    <button onclick="doSearch()">Search</button>
-  </div>
-</header>
+<!-- Floating Hearts -->
+<div class="heart" style="left:5%;animation-delay:0s;">❤️</div>
+<div class="heart" style="left:20%;animation-delay:2s;">💖</div>
+<div class="heart" style="left:40%;animation-delay:4s;">💕</div>
+<div class="heart" style="left:60%;animation-delay:1s;">💗</div>
+<div class="heart" style="left:80%;animation-delay:3s;">❤️</div>
+<div class="heart" style="left:90%;animation-delay:5s;">💞</div>
 
-<div class="tabs">
-  <div class="tab active" onclick="switchTab('bollywood',this)">Bollywood</div>
-  <div class="tab" onclick="switchTab('hollywood',this)">Hollywood</div>
-  <div class="tab" onclick="switchTab('series',this)">Series</div>
+<!-- LOGIN PAGE -->
+<div class="container" id="loginPage">
+
+    <div class="logo">❤️</div>
+
+    <h1>Welcome</h1>
+
+    <p class="subtitle">
+        Enter your brother's name to continue 💕
+    </p>
+
+    <input 
+        type="text" 
+        id="brotherName"
+        placeholder="Enter Your Brother Name"
+    >
+
+    <button onclick="login()">
+        Login ❤️
+    </button>
+
 </div>
 
-<div id="grid" class="grid"></div>
-</div>
+<!-- WELCOME PAGE -->
+<div class="container" id="welcomePage">
 
-<div id="player" class="player" onclick="closePlayer()">
-  <div class="player-content" onclick="event.stopPropagation()">
-    
-    <div id="optionBox" class="option-box">
-      <button class="playBtn" onclick="startPlay()">▶ Play</button>
-      <button class="downBtn" onclick="startDownload()">⬇ Download</button>
+    <div class="logo">👫</div>
+
+    <h1>
+        My Cute Sister 💕
+    </h1>
+
+    <p class="subtitle">
+        Welcome <span class="name" id="showName"></span> ❤️
+    </p>
+
+    <div class="message">
+
+        <span>💖 You are not just my sister, you are my little happiness.</span>
+
+        <span>🌸 Your smile always makes my day more beautiful.</span>
+
+        <span>🥰 No matter how much we fight, I will always care for you.</span>
+
+        <span>🤗 You will always have your brother by your side.</span>
+
+        <span>❤️ My cute sister, you are truly special to me.</span>
+
     </div>
 
-    <div id="partBox" class="option-box"></div>
+    <button class="back" onclick="goBack()">
+        Logout
+    </button>
 
-    <iframe id="iframePlayer" allowfullscreen style="display:none;"></iframe>
-
-    <div class="controls download" id="downloadDiv" style="display:none;">
-      <a id="downloadBtn" target="_blank">⬇ Download</a>
-    </div>
-
-    <button class="close" onclick="closePlayer()">Close</button>
-  </div>
 </div>
 
 <script>
-const data={
-bollywood:[
-   {
-    title:'BORDER 2 (2026)',
-    img:'https://th.bing.com/th/id/OIP.P5NJgvzisZXqSQ8ZF6gqQwHaEK?w=295&h=180',
-    iframe:'https://slime403heq.com/play/tt30387012',
-    download:'https://www.filmyzilla32.com/movie/21344/Border-2-(2026)-hindi-movie.html'
-  },
-  {title:'VADH 2 (2026)',
-  img:'https://tse3.mm.bing.net/th/id/OIP.2OxYEiOBGB3rX85YGEKWtgAAAA?pid=Api&P=0&h=180',
-  iframe:'https://slime403heq.com/play/tt30176955',
-  download:'https://www.filmyzilla32.com/movie/21390/Vadh-2-(2026)-hindi-movie.html'},
-  {
-    title:'BIHU ATTACK (2026)',
-    img:'https://tse3.mm.bing.net/th/id/OIP.IXQVWXRo318xUfC7xFg8egAAAA?pid=Api&P=0&h=180',
-    iframe:'https://heast404jax.com/play/tt32065626',
-    download:'https://in.filmyzilla.builders/server/38046/Bihu-attack-2026-hindi-full-movie-1080p-hdtc.mp4.html'},,
-   {
-    title:'ME NOT PAUSE ME PLAY (2026)',
-    img:'https://tse4.mm.bing.net/th/id/OIP.hKqCo-ng262bN7eo_4sAjgAAAA?pid=Api&P=0&h=180',
-    iframe:'https://heast404jax.com/play/tt38672269',
-    download:'https://www.filmyzilla30.com/server/34394/Me-No-Pause-Me-Play-(2025)-Hindi-Movie-1080p-HDTC.mkv.html'
-  },
-   {
-    title:'TU MERI MEIN TERA (2025 HD)',
-    img:'https://m.media-amazon.com/images/M/MV5BZWFlOWQ1OTctYjQ5NC00NDQ2LWFmNmQtMDNlOWFjNzExY2VkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg',
-    iframe:'https://heast404jax.com/play/tt35146696',
-    download:'https://www.filmyzilla32.com/movie/21380/Tu-meri-main-tera-main-tera-tu-meri-(2025)-hindi-movie.html'
-  },
-   {
-    title:'MARDANI 3 (2026)',
-    img:'https://th.bing.com/th/id/OIP.TZeq1kjdLaFemlvXb0tkqAHaDt?w=314&h=175&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3',
-    iframe:'https://heast404jax.com/play/tt27673536',
-    download:'https://www.filmyzilla32.com/movie/21361/Mardaani-3-(2026)-hindi-movie.html'
-  },
-   {
-    title:'BHABIJI GHAR PAR HAIN (2026)',
-    img:'https://th.bing.com/th/id/OIP.Kos1OKAYFRc8ZOoezEhr9gAAAA?w=115&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3',
-    iframe:'https://heast404jax.com/play/tt39045215',
-    download:'https://www.filmyzilla32.com/movie/21387/Bhabiji-ghar-par-hain-(2026)-hindi-movie.html'
-  },
-   {
-    title:'FATEH (2025 HD)',
-    img:'https://th.bing.com/th/id/OIP.0W62o1kIQch_CwWZz5K_sQHaKk?w=129&h=184&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3',
-    iframe:'https://heast404jax.com/play/tt27679608',
-    download:'https://www.filmyzilla32.com/movie/19928/Fateh-(2025)-hindi-movie.html'
-  },
-   {
-    title:'DHURANDHAR(2025 HD)',
-    img:'https://th.bing.com/th/id/OIP.kTu6hJdq_BSXOFRDQ4QRewHaLH?w=119&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3',
-    iframe:'https://heast404jax.com/play/tt33014583',
-    download:'https://www.filmyzilla32.com/movie/21359/Dhurandhar-(2025)-hindi-movie.html'
-  },
-   {
-    title:'DE DE PYAAR DE 2 (2025 HD)',
-    img:'https://th.bing.com/th/id/OIP.jof_LvRdxBkqwTlTxHM1WgHaFj?w=205&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3',
-    iframe:'https://heast404jax.com/play/tt28802657',
-    download:'https://www.filmyzilla32.com/movie/21017/De-de-pyaar-de-2-(2025)-hindi-movie.html'
-  },
-   {
-    title:'AZAAD (2025 HD)',
-    img:'https://th.bing.com/th/id/OIP.TJZzjxegeDmbbmJn1DsHQwHaJQ?w=138&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3',
-    iframe:'https://hrujo406fix.com/play/tt26439870',
-    download:'https://www.filmyzilla32.com/server/28289/Azaad-(2025)-Hindi-Dubbed-Movie-1080p-WebRip.mp4.html'
-  },,
-   {
-    title:'DE DE PYAAR DE 2 (2025 HD)',
-    img:'https://www.bing.com/th/id/OIP.eZnEMTeSMCmiiVKpzA9MSAHaLH?w=160&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2',
-    iframe:'https://hrujo406fix.com/play/tt28802657',
-    download:'https://www.filmyzilla32.com/movie/21017/De-de-pyaar-de-2-(2025)-hindi-movie.html'
-  },
-],
-hollywood:[
-  {title:'LEE',
-  img:'https://www.bing.com/th/id/OIP.KhOAxbJ402oRiXu7A-rA8QHaKf?w=160&h=211',
-  iframe:'https://slime403heq.com/play/tt5112584',
-  download:''},
-  {
-    title:'IT FEEDS',
-    img:'https://tse3.mm.bing.net/th/id/OIP.lIMvxEoDtAScV2jxlSZ_VQHaLG?pid=Api&P=0&h=180',
-    iframe:'https://slime403heq.com/play/tt28230296',
-    download:'https://www.filmyzilla30.com/movie/21297/It-feeds-(2025)-hindi-dubbed-movie.html'
-  },
-   {
-    title:'TRIAN TO BUSAN',
-    img:'',
-    iframe:'',
-    download:'https://www.filmyzilla30.com/server/4670/Train-to-busan-2016-hindi-dubbed-full-movie-hdrip.mp4.html'
-  },
-],
-series:[
-  {title:'ZOOTOPIA 2',
-  img:'https://tse3.mm.bing.net/th/id/OIP.MCGxiGGrNq90eAXo617LYQHaLH?pid=Api&P=0&h=180',
-   parts:[
-     'https://slime403heq.com/play/tt26443597?part=1',
-     'https://slime403heq.com/play/tt26443597?part=2',
-   ]},
-   {
-    title:'HOW TO TRAIN YOUR DRAGON ',
-    img:'https://tse3.mm.bing.net/th/id/OIP.JYEjX3ctYTNomMnGZDhV0gHaLu?pid=Api&P=0&h=180',
-    parts:[
-      'https://slime403heq.com/play/tt26743210?part=1'
-    ]
-   }
-]
-};
 
-let currentTab='bollywood';
-let selectedVideo="";
-let selectedDownload="";
-let selectedParts=[];
+function login(){
 
-const grid=document.getElementById('grid');
-const player=document.getElementById('player');
-const iframe=document.getElementById('iframePlayer');
-const optionBox=document.getElementById('optionBox');
-const partBox=document.getElementById('partBox');
+    let name = document.getElementById("brotherName").value.trim();
 
-function render(list){
-grid.innerHTML='';
-list.forEach(item=>{
-  const card=document.createElement('div');
-  card.className='card';
-  card.innerHTML=`<img src="${item.img}"><p>${item.title}</p>`;
-  card.onclick=()=>{
-    selectedVideo=item.iframe;
-    selectedDownload=item.download;
-    selectedParts=item.parts || [];
-    optionBox.style.display='block';
-    partBox.style.display='none';
-    iframe.style.display='none';
-    player.style.display='flex';
-  };
-  grid.appendChild(card);
-});
+    // Only GHANSHYAM is allowed
+    if(name.toUpperCase() !== "GHANSHYAM"){
+        alert("Please enter the correct brother name ❤️");
+        return;
+    }
+
+    document.getElementById("showName").innerText = "GHANSHYAM";
+
+    document.getElementById("loginPage").style.display = "none";
+
+    document.getElementById("welcomePage").style.display = "block";
 }
 
-function switchTab(tab,el){
-currentTab=tab;
-document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-el.classList.add('active');
-render(data[tab]);
+function goBack(){
+
+    document.getElementById("welcomePage").style.display = "none";
+
+    document.getElementById("loginPage").style.display = "block";
+
+    document.getElementById("brotherName").value = "";
 }
 
-function doSearch(){
-const q=searchInput.value.toLowerCase();
-render(data[currentTab].filter(i=>i.title.toLowerCase().includes(q)));
-}
-
-function startPlay(){
-optionBox.style.display='none';
-
-if(currentTab==='series' && selectedParts.length>0){
-  partBox.innerHTML='';
-  selectedParts.forEach((p,i)=>{
-    const btn=document.createElement('button');
-    btn.className='partBtn';
-    btn.innerText='Part '+(i+1);
-    btn.onclick=()=>playVideo(p);
-    partBox.appendChild(btn);
-  });
-  partBox.style.display='block';
-}else{
-  playVideo(selectedVideo);
-}
-}
-
-function playVideo(url){
-partBox.style.display='none';
-iframe.style.display='block';
-iframe.src=url;
-
-setTimeout(()=>{
-  if(iframe.requestFullscreen){
-    iframe.requestFullscreen();
-  }
-},500);
-}
-
-function startDownload(){
-window.open(selectedDownload,'_blank');
-}
-
-function closePlayer(){
-iframe.src='';
-player.style.display='none';
-optionBox.style.display='none';
-partBox.style.display='none';
-}
-
-render(data[currentTab]);
 </script>
+
 </body>
 </html>
+```
