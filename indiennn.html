@@ -1,0 +1,253 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Cute Sister ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff758c,#ff7eb3,#a18cd1);
+    overflow:hidden;
+}
+
+/* Floating hearts */
+.heart{
+    position:absolute;
+    bottom:-50px;
+    font-size:25px;
+    animation:float 7s linear infinite;
+    opacity:.8;
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(0) rotate(0deg);
+        opacity:0;
+    }
+    20%{
+        opacity:1;
+    }
+    100%{
+        transform:translateY(-110vh) rotate(360deg);
+        opacity:0;
+    }
+}
+
+.container{
+    width:90%;
+    max-width:420px;
+    padding:35px 25px;
+    text-align:center;
+    background:rgba(255,255,255,.18);
+    border:1px solid rgba(255,255,255,.4);
+    border-radius:25px;
+    backdrop-filter:blur(15px);
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+    color:white;
+    z-index:10;
+}
+
+.logo{
+    font-size:65px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    font-size:15px;
+    margin-bottom:25px;
+    opacity:.9;
+}
+
+input{
+    width:100%;
+    padding:15px;
+    border:none;
+    outline:none;
+    border-radius:12px;
+    font-size:16px;
+    text-align:center;
+    margin-bottom:15px;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:#ff3366;
+    color:white;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    transform:scale(1.04);
+    background:#ff174f;
+}
+
+/* Welcome page */
+#welcomePage{
+    display:none;
+}
+
+#welcomePage h1{
+    color:#fff;
+}
+
+.name{
+    color:#ffe1ea;
+}
+
+.message{
+    margin-top:20px;
+    font-size:17px;
+    line-height:1.8;
+    text-align:center;
+}
+
+.message span{
+    display:block;
+    margin-bottom:5px;
+}
+
+.back{
+    margin-top:25px;
+    background:rgba(255,255,255,.25);
+}
+
+@media(max-width:480px){
+    .container{
+        padding:30px 20px;
+    }
+
+    h1{
+        font-size:26px;
+    }
+
+    .message{
+        font-size:15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Floating Hearts -->
+<div class="heart" style="left:5%;animation-delay:0s;">❤️</div>
+<div class="heart" style="left:20%;animation-delay:2s;">💖</div>
+<div class="heart" style="left:40%;animation-delay:4s;">💕</div>
+<div class="heart" style="left:60%;animation-delay:1s;">💗</div>
+<div class="heart" style="left:80%;animation-delay:3s;">❤️</div>
+<div class="heart" style="left:90%;animation-delay:5s;">💞</div>
+
+<!-- LOGIN PAGE -->
+<div class="container" id="loginPage">
+
+    <div class="logo">❤️</div>
+
+    <h1>Welcome</h1>
+
+    <p class="subtitle">
+        Enter your brother's name to continue 💕
+    </p>
+
+    <input 
+        type="text" 
+        id="brotherName"
+        placeholder="Enter Your Brother Name"
+    >
+
+    <button onclick="login()">
+        Login ❤️
+    </button>
+
+</div>
+
+<!-- WELCOME PAGE -->
+<div class="container" id="welcomePage">
+
+    <div class="logo">👫</div>
+
+    <h1>
+        My Cute Sister 💕
+    </h1>
+
+    <p class="subtitle">
+        Welcome <span class="name" id="showName"></span> ❤️
+    </p>
+
+    <div class="message">
+
+        <span>💖 You are not just my sister, you are my little happiness.</span>
+
+        <span>🌸 Your smile always makes my day more beautiful.</span>
+
+        <span>🥰 No matter how much we fight, I will always care for you.</span>
+
+        <span>🤗 You will always have your brother by your side.</span>
+
+        <span>❤️ My cute sister, you are truly special to me.</span>
+
+    </div>
+
+    <button class="back" onclick="goBack()">
+        Logout
+    </button>
+
+</div>
+
+<script>
+
+function login(){
+
+    let name = document.getElementById("brotherName").value.trim();
+
+    // Only GHANSHYAM is allowed
+    if(name.toUpperCase() !== "GHANSHYAM"){
+        alert("Please enter the correct brother name ❤️");
+        return;
+    }
+
+    document.getElementById("showName").innerText = "GHANSHYAM";
+
+    document.getElementById("loginPage").style.display = "none";
+
+    document.getElementById("welcomePage").style.display = "block";
+}
+
+function goBack(){
+
+    document.getElementById("welcomePage").style.display = "none";
+
+    document.getElementById("loginPage").style.display = "block";
+
+    document.getElementById("brotherName").value = "";
+}
+
+</script>
+
+</body>
+</html>
+```
